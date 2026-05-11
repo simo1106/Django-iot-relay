@@ -63,17 +63,18 @@ def on_message(client, userdata, msg):
     try:
         payload = msg.payload.decode("utf-8")
         data = json.loads(payload)
-
-        print("Receive:", msg.topic, data)
-
+        
+        # 如果有 source 標記且是 web 來源, mqtt_client.py 就不處理這個訊息, 避免重複處理來自 web 的控制訊息
+        if data.get("source") == "web":
+            print("跳過來自 web 的 MQTT 訊息")
+            return
+        
         update_state(data)
-
+        
         if msg.topic == MQTT_TOPIC_CONTROL:
             save_log(data, "mqtt", MQTT_TOPIC_CONTROL)
         elif msg.topic == MQTT_TOPIC_STATUS:
-            # 狀態回報只更新畫面狀態，不一定要記錄
-            pass
-
+            update_state(data)
     except Exception as e:
         print("MQTT message error:", e)
 
