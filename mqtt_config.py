@@ -1,0 +1,8 @@
+
+MQTT_SERVER = "192.168.58.190"
+MQTT_PORT = 1883
+MQTT_USERNAME = "cubie"
+MQTT_PASSWORD = "1234"
+
+MQTT_TOPIC_CONTROL = "relay_control/teacher"
+MQTT_TOPIC_STATUS = "relay_status/teacher"
